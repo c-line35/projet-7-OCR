@@ -1,0 +1,107 @@
+.header {
+  display: flex;
+  align-items: center;
+  width: 50%;
+  height: 100px;
+  margin: 100px auto;
+}
+.header img {
+  width: 100%;
+}
+
+.posts {
+  margin: 50px auto;
+  padding-bottom: 20px;
+}
+
+.post {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  border: 1px solid black;
+  margin: 20px auto;
+}
+.post__info {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 5px;
+}
+.post__content {
+  margin: 0 5px;
+}
+.post__content textarea {
+  display: flex;
+  margin: 0 auto 10px;
+  width: 90%;
+}
+.post__content img {
+  display: flex;
+  margin: 10px auto;
+  width: 80%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.post__edit {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+.post__edit__like {
+  display: flex;
+  margin: 5px;
+}
+.post__edit__button {
+  width: 95%;
+}
+.post__edit__button button {
+  margin-left: 10px;
+}
+
+.anticon-like {
+  cursor: pointer;
+  transition: transform 300ms;
+}
+.anticon-like:hover {
+  transform: scale(1.2);
+}
+
+.admin-btn {
+  width: 50%;
+  display: flex;
+  margin: 10px auto;
+}
+
+.auth-form {
+  width: 80%;
+  margin-top: 100px;
+}
+
+.newPost {
+  display: flex;
+  flex-direction: column;
+  margin: 30px auto;
+  width: 90%;
+}
+.newPost__button {
+  width: 30%;
+  margin: 20px auto;
+}
+
+.writePost {
+  padding: 20px 20px 0 20px;
+}
+.writePost textarea {
+  display: flex;
+  margin: 10px auto;
+  width: 95%;
+}
+
+.writePost-form__submit {
+  display: flex;
+  justify-content: space-around;
+}
+
+* {
+  box-sizing: border-box;
+}/*# sourceMappingURL=style.css.map */

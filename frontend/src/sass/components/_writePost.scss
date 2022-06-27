@@ -1,0 +1,26 @@
+.newPost{
+    display: flex;
+    flex-direction: column;
+    margin: 30px auto;
+    width: 90%;
+    &__button{
+        width: 30%;
+        margin: 20px auto;
+    }
+
+}
+.writePost{
+    
+    padding: 20px 20px 0 20px;
+    textarea{
+        display:flex;
+        margin: 10px auto;
+        width: 95%;
+    }
+}
+.writePost-form{
+    &__submit{
+        display: flex;
+        justify-content: space-around;
+    }
+}

@@ -1,0 +1,59 @@
+.posts{
+    margin:50px auto;
+    padding-bottom: 20px;;
+}
+
+.post{
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    border: 1px solid black;
+    margin: 20px auto;
+    &__info{
+        display: flex;
+        justify-content: space-between;
+        margin: 0 5px;
+    }
+    &__content{
+        margin: 0 5px;
+        textarea{
+            display: flex;
+            margin: 0 auto 10px;
+            width: 90%;
+        }
+        img{
+            display: flex;
+            margin: 10px auto;
+            width: 80%;
+            object-fit: cover;
+        }
+    }
+    &__edit{
+        display:flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-bottom: 10px;
+        &__like{
+            display: flex;
+            margin: 5px;
+        }  
+        &__button{
+            width: 95%;
+            button{
+                margin-left: 10px;
+            }
+        }
+    }
+}   
+.anticon-like{ 
+    cursor: pointer;
+    transition: transform 300ms;
+    &:hover{
+        transform: scale(1.2)
+    }
+}
+.admin-btn{
+    width: 50%;
+    display: flex;
+    margin: 10px auto;
+}

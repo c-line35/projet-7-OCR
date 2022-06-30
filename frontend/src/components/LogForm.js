@@ -42,7 +42,7 @@ const LogForm = () => {
         rules={[
           {
             required: true,
-            message: 'Please input your Email!',
+            message: 'Veuillez rentrer votre adresse Email!',
           },
           {
             type: "email",
@@ -58,7 +58,7 @@ const LogForm = () => {
         rules={[
           {
             required: true,
-            message: 'Please input your Password!',
+            message: 'Veuillez rentrer votre  mot de passe',
           },
           {
             pattern: validePassword,

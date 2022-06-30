@@ -79,7 +79,7 @@ const SignForm = () => {
         rules={[
           {
             required: true,
-            message: 'Please input your Password!',
+            message: 'Veuillez rentrer votre mot de passe',
           },
           {
             pattern: validePassword,

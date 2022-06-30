@@ -1,3 +1,4 @@
+@import './main.css';
 .header {
   display: flex;
   align-items: center;
@@ -9,6 +10,11 @@
   width: 100%;
 }
 
+@media all and (max-width: 768px) {
+  .header {
+    width: 80%;
+  }
+}
 .posts {
   margin: 50px auto;
   padding-bottom: 20px;
@@ -27,29 +33,42 @@
   margin: 0 5px;
 }
 .post__content {
+  display: flex;
+  align-items: center;
   margin: 0 5px;
 }
-.post__content textarea {
+.post__content__modal {
+  width: 20%;
+}
+.post__content--full {
+  width: 95%;
+}
+.post__content--img {
+  width: 75%;
+}
+.post__content p {
   display: flex;
-  margin: 0 auto 10px;
-  width: 90%;
+  margin: 0 auto;
+  background: rgba(255, 215, 215, 0.368627451);
+  padding: 20px;
 }
 .post__content img {
   display: flex;
   margin: 10px auto;
-  width: 80%;
+  width: 100%;
   -o-object-fit: cover;
      object-fit: cover;
+  cursor: pointer;
 }
 .post__edit {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin-bottom: 10px;
+  margin: 10px 0;
 }
 .post__edit__like {
   display: flex;
-  margin: 5px;
+  margin: 10px;
 }
 .post__edit__button {
   width: 95%;
@@ -61,17 +80,36 @@
 .anticon-like {
   cursor: pointer;
   transition: transform 300ms;
+  transform: scale(1.5);
 }
 .anticon-like:hover {
-  transform: scale(1.2);
+  transform: scale(1.8);
 }
 
 .admin-btn {
   width: 50%;
-  display: flex;
-  margin: 10px auto;
+  margin: 10px;
 }
 
+@media all and (max-width: 768px) {
+  .post {
+    width: 90%;
+  }
+  .post__content {
+    display: flex;
+    flex-direction: column;
+  }
+  .post__content__modal {
+    width: 50%;
+  }
+  .post__content--img {
+    width: 95%;
+  }
+
+  .admin-btn {
+    width: 70%;
+  }
+}
 .auth-form {
   width: 80%;
   margin-top: 100px;

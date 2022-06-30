@@ -4,9 +4,10 @@ const prisma = new PrismaClient()
 const { User, Post, Like} = prisma;
 const fs = require('fs');
 
-const contentRegexp = new RegExp(/^[a-z0-9\séèçêëàù'\-,":{}]{1,2000}$/i)
+const contentRegexp = new RegExp(/^[a-z0-9\\n\séèçêëàù'\-,.":{}?!;]{1,2000}$/i)
 
 exports.createPosts = (req, res, next)=>{
+   
     const valideContent = contentRegexp.test(req.body.data)
     if(!valideContent){
         return res.status(400).send({message:"Certains caractères spéciaux sont interdits dans votre message"})
@@ -70,26 +71,31 @@ exports.getAllUserPosts = (req, res, next)=>{
 exports.updatePosts = (req, res, next)=>{
     const { id } = req.params;
     const postObject = JSON.parse(req.body.data)
-    const { content, userId} = postObject;
+    const { content } = postObject;
     if(req.file){
         Post.findUnique({where: {id: parseInt(id)}})
         .then((post)=>{
-            if(post.image){
-            const filename = post.image.split('/images/')[1]
-            fs.unlink(`images/${filename}`, ()=>{console.log('ancienne image supprimée')})}
-            })
-            Post.update ({
-                where: {
-                    id: parseInt(id),
-                },
-                data: {
-                    userId: parseInt(userId),
-                    content: content,
-                    image :  `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-                },
-            })
-                .then((data)=>res.status(200).send(data))
-                .catch((error)=>res.status(500).send({message: error.message}))
+            if(post.userId === req.auth || req.role === 'ADMIN'){ 
+                
+                if(post.image){
+                const filename = post.image.split('/images/')[1]
+                fs.unlink(`images/${filename}`, ()=>{console.log('ancienne image supprimée')})}
+              
+                Post.update ({
+                    where: {
+                        id: parseInt(id),
+                    },
+                    data: {
+                        content: content,
+                        image :  `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+                    },
+                })
+                    .then((data)=>res.status(200).send(data))
+                    .catch((error)=>res.status(500).send({message: error.message}))
+                }else{
+                    return res.status(401).send({message: "Requête non authentifiée"})
+                }
+                })
         .catch((error)=> res.status(400).send({message: error.message}))
     }else{
         Post.update ({
@@ -97,40 +103,45 @@ exports.updatePosts = (req, res, next)=>{
                 id: parseInt(id),
             },
             data: {
-                userId: parseInt(userId),
-                content: content,
+                content: content
             },
         })
-        .then((data)=>{
-            data? res.status(200).send(data)
-            :res.status(404).send({message: 'Post non trouvé'})
+        .then((post)=>{
+            if(post.userId === req.auth || req.role === 'ADMIN'){
+            res.status(200).send(post)
+        }else{
+            return res.status(401).send({message: "Requête non authentifiée"})
+            }
         })
         .catch((error)=>{
-            res.status(500).send({message: error.message})
+            res.status(500).send({message: "c'est cette erreur"})
         })
     }
 }
 exports.deleteImage = (req, res, next)=>{
     const { id } = req.params
     const postObject = JSON.parse(req.body.data)
-    const { content, userId} = postObject
+    const { content } = postObject
     Post.findUnique({where: {id: parseInt(id)}})
         .then((post)=>{
-            if(post.image){
-            const filename = post.image.split('/images/')[1]
-            fs.unlink(`images/${filename}`, ()=>{console.log('ancienne image supprimée')})}
-            Post.update({
-                where: {
-                    id: parseInt(id),
-                    },
-                data: {
-                    userId: parseInt(userId),
-                    content: content,
-                    image: null
-                    },
-                })
-                .then((data)=>res.status(200).send(data))
-                .catch((error)=>res.status(500).send({message: error.message}))
+            if(post.userId === req.auth || req.role === 'ADMIN'){
+                if(post.image){
+                    const filename = post.image.split('/images/')[1]
+                    fs.unlink(`images/${filename}`, ()=>{console.log('ancienne image supprimée')})}
+                    Post.update({
+                        where: {
+                            id: parseInt(id),
+                        },
+                        data: {
+                            content: content,
+                            image: null
+                        }
+                    })
+                        .then((data)=>res.status(200).send(data))
+                        .catch((error)=>res.status(500).send({message: error.message}))
+            }else{
+                return res.status(401).send({message: "Requête non authentifiée"})
+            }
         })
         .catch((error)=>res.status(400).send({message: error.message}))
 
@@ -139,26 +150,16 @@ exports.deletePosts = (req, res, net)=>{
     const { id } = req.params
     Post.findUnique({where: {id: parseInt(id)}})
     .then((post)=>{
-       
-        if(req.role === "ADMIN" ) {
+        if(post.userId === req.auth || req.role === 'ADMIN'){
             if(post.image){
-            const filename = post.image.split('/images/')[1]
-            fs.unlink(`images/${filename}`, ()=>{console.log('image supprimée')})}
-            Post.delete ({where:{id : parseInt(id)}})
-                .then(()=>{res.status(200).send({message: "Votre post a bien été supprimé"})})
-                .catch((error)=> res.status(400).send({message: error.message}))
-        }else{
-            if(post.userId !== req.auth){
-                return res.status(401).send({message: "Requête non authentifiée"})
-             }else{
-               if(post.image){
                 const filename = post.image.split('/images/')[1]
-                    fs.unlink(`images/${filename}`, ()=>{console.log('image supprimée')})}
-                    Post.delete ({where:{id : parseInt(id)}})
-                        .then(()=>{res.status(200).send({message: "Votre post a bien été supprimé"})})
-                        .catch((error)=> res.status(400).send({message: error.message}))
+                fs.unlink(`images/${filename}`, ()=>{console.log('image supprimée')})}
+                Post.delete ({where:{id : parseInt(id)}})
+                    .then(()=>{res.status(200).send({message: "Votre post a bien été supprimé"})})
+                    .catch((error)=> res.status(400).send({message: error.message}))
+             }else{
+                return res.status(401).send({message: "Requête non authentifiée"})
                 }  
-            }
         }) 
     .catch((error)=>res.status(400).send({message: error.message}))   
 }

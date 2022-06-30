@@ -5,7 +5,8 @@ export const authContext = React.createContext({
     user: null,
     reqInstance: null,
     getProfil: ()=>{},
-    initToken:()=>{}
+    initToken:()=>{},
+    isAdmin: false
 });
 
 const AuthContextProvider=({ children })=>{
@@ -13,11 +14,12 @@ const AuthContextProvider=({ children })=>{
     const [authProfil, setAuthProfil] = useState("");
     const[token, setToken]=useState('');
 
+
   useEffect(()=>{
     initToken()
   },[])
 
-  
+
     const initToken = ()=>{
         setToken(localStorage.getItem('token'));
     }  

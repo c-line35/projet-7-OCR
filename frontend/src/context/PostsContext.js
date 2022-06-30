@@ -6,7 +6,11 @@ export const postsContext = React.createContext({
    posts: [],
    getAllPosts: ()=>{},
    getUserPosts:()=>{},
-   getUserLikePosts:()=>{}
+   getUserLikePosts:()=>{},
+   content: "",
+   setContent :()=>{},
+   file: "",
+   setFile:()=>{}
 
 });
 
@@ -22,6 +26,9 @@ const PostsContextProvider=({ children })=>{
     const { id } = authProfil
       
     const [posts, setPosts] = useState([])
+    const [content, setContent] = useState({});
+    const [file, setFile] = useState("");
+
 
     const getAllPosts = ()=>{
         reqInstance.get(
@@ -59,7 +66,7 @@ const PostsContextProvider=({ children })=>{
         }
 
         return(
-    <postsContext.Provider value = { {posts, getAllPosts, getUserPosts, getUserLikePosts }  } >
+    <postsContext.Provider value = { {posts, getAllPosts, getUserPosts, getUserLikePosts, content, setContent, file, setFile }  } >
         { children }
     </postsContext.Provider>)
 

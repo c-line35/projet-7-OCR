@@ -3,19 +3,26 @@ import { authContext } from '../context/AuthContext';
 import { postsContext } from '../context/PostsContext';
 import EditLike from './EditLike';
 import UpdatePost from './UpdatePost';
-import { Button, Space } from 'antd';
+import { Button, Space, Modal } from 'antd';
 
 const Post = ({ post }) => {
     const { id, content, image } = post
     const { authProfil, reqInstance} = useContext(authContext)
     const userId = authProfil.id
     const userRole = authProfil.role
-
+  
 const { getAllPosts } = useContext(postsContext)
 
 const[myPost, setMyPost] = useState(false);
-const [editContent, setEditContent] = useState("");
-const [newImage, setNewImage]=useState("")
+const [isModalVisible, setIsModalVisible] = useState(false);
+
+const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
 
 
@@ -47,7 +54,7 @@ const isMyPost = ()=>{
         if(window.confirm("Voulez-vous vraiment supprimer votre message?")){
             reqInstance.delete(`/posts/${id}`)
                 .then(()=>getAllPosts())
-
+                .catch(()=>alert("Vous n'êtes pas authorisé à faire ça"))
         }
     }
 
@@ -59,29 +66,42 @@ const isMyPost = ()=>{
                 <p>Le {dateFormater(post.createdAt)}</p>
             </div>
             <div className='post__content'>
-                {post.image && <img src={ image}/>}
-                <p>{editContent? editContent : content}</p>
+                {post.image && 
+                <div className="post__content__modal">
+                    <img src={ image} onClick={showModal} />
+                    <Modal 
+                    visible={isModalVisible} 
+                    onCancel={handleCancel}
+                    footer={[
+                        <Button key="fermer" onClick={handleCancel}>
+                        Fermer
+                        </Button>
+                    ]}
+                    >
+                    <img src={ image} style={{"width": "100%"}} />
+                    </Modal>
+                </div>
+                }
+                <p className={image?"post__content post__content--img":"post__content post__content--full"}>{content}</p>
             </div>
             <div className='post__edit'>
-                {myPost&&
-                <Space
+                {myPost && userRole === "USER"
+                ?<Space
                 direction='horizontal'
                 style={{ width: '85%' }}
                 >
-                        <UpdatePost 
-                        post={ post } 
-                        editContent={editContent} 
-                        setEditContent={setEditContent}
-                        newImage={newImage}
-                        setNewImage={setNewImage}
-                        />
+                        <UpdatePost   post={ post }/> 
                         <Button type='primary' id='delete' onClick={deletePost}>Supprimer</Button>
                 </Space>
-               } 
+                :""
+                }  
                 <EditLike post={ post } />
             </div> 
             {userRole === "ADMIN"
-               ?<Button className='admin-btn' onClick={deletePost}>Supression ADMIN</Button>
+               ?<div>
+                <Button className='admin-btn' onClick={deletePost}>Supression ADMIN</Button>
+                <UpdatePost post={ post }/> 
+               </div>
                :""
                } 
         </div>

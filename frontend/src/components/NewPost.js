@@ -1,22 +1,20 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Button, Form, Input, Upload, Modal } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { authContext } from '../context/AuthContext';
 import { postsContext } from '../context/PostsContext';
 
-const contentRegexp = new RegExp(/^[a-z0-9\séèçêëàù'\-,":{}]{1,2000}$/i)
+const contentRegexp = new RegExp(/^[a-z0-9\séèçêëàù'\-,.":{}!?;]{1,2000}$/i)
 
-const NewPostBis = () => {
+const NewPost = () => {
 
     const { authProfil, reqInstance} = useContext(authContext)
     const { id, pseudo }= authProfil
 
-    const { getAllPosts} = useContext(postsContext)
+    const { getAllPosts, content, setContent, file, setFile} = useContext(postsContext)
     
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [content, setContent] = useState({});
-    const [file, setFile] = useState("");
-
+   
     const handleCancel = () => {
         setIsModalVisible(false);
     };
@@ -34,6 +32,11 @@ const NewPostBis = () => {
     }
     
     const onFinish = () => {
+        const valideContent = contentRegexp.test(content)
+       
+            if(!valideContent){
+                alert("Ce message n'est pas valide")
+            }else{
        const data = {
             userId: id,
             userPseudo: pseudo,
@@ -52,8 +55,8 @@ const NewPostBis = () => {
             setFile("")
             getAllPosts()
             setIsModalVisible(false)
-        }) 
-      };
+        }) }
+    }
     
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
@@ -117,4 +120,4 @@ const NewPostBis = () => {
     );
 };
 
-export default NewPostBis;
+export default NewPost;

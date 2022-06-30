@@ -3,8 +3,13 @@ import Posts from './Posts';
 import { authContext } from '../context/AuthContext';
 import Tab from './Tab';
 import PostsContextProvider from '../context/PostsContext';
+import 'antd/dist/antd.variable.min.css';
+import { ConfigProvider } from 'antd';
+
 
 const Main = () => {
+
+    ConfigProvider.config({ theme: { primaryColor: "#fd201d" } });
 
 const { authProfil, getProfil, token } = useContext(authContext)
 
@@ -16,6 +21,7 @@ useEffect(()=>{
 
 
     return (
+        <ConfigProvider>
         <div>
             {authProfil?
             <PostsContextProvider>
@@ -23,6 +29,7 @@ useEffect(()=>{
             </PostsContextProvider>
             :<Tab />}
         </div>
+        </ConfigProvider>
     );
 };
 

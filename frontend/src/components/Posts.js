@@ -14,7 +14,7 @@ const style = {
   width: 20,
   lineHeight: '20px',
   borderRadius: 4,
-  backgroundColor: '#ffd7d7',
+  backgroundColor: '#4e5166',
   color: '#fff',
   textAlign: 'center',
   fontSize: 14,
@@ -35,7 +35,7 @@ useEffect(()=>{
 
   return (
     <div>
-      <h1>Bienvenu { pseudo }</h1>
+      <div className='welcome'>Bienvenu { pseudo }</div>
       <NewPost />
       <Navbar />
       <div className="posts">

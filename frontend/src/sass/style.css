@@ -1,4 +1,3 @@
-@import './main.css';
 .header {
   display: flex;
   align-items: center;
@@ -49,7 +48,7 @@
 .post__content p {
   display: flex;
   margin: 0 auto;
-  background: rgba(255, 215, 215, 0.368627451);
+  background: rgba(255, 215, 215, 0.7529411765);
   padding: 20px;
 }
 .post__content img {
@@ -142,4 +141,12 @@
 
 * {
   box-sizing: border-box;
+  font-family: "Lato", sans-serif;
+}
+
+.welcome {
+  color: #4e5133;
+  font-size: 40px;
+  font-weight: bold;
+  text-align: center;
 }/*# sourceMappingURL=style.css.map */

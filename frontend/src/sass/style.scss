@@ -1,5 +1,4 @@
 
-
 @import './layout/header';
 @import './layout/post';
 @import './components/auth-form';
@@ -7,4 +6,12 @@
 
 *{
     box-sizing: border-box;
+    font-family: 'Lato', sans-serif;
+}
+
+.welcome{
+    color: #4e5133;
+    font-size : 40px;
+    font-weight: bold;
+    text-align: center;
 }

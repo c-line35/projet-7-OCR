@@ -9,7 +9,9 @@ import { ConfigProvider } from 'antd';
 
 const Main = () => {
 
-    ConfigProvider.config({ theme: { primaryColor: "#fd201d" } });
+    ConfigProvider.config({ theme: { 
+        primaryColor: "#fd2d01"
+    } });
 
 const { authProfil, getProfil, token } = useContext(authContext)
 

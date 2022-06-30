@@ -6,15 +6,23 @@ import UpdatePost from './UpdatePost';
 import { Button, Space, Modal } from 'antd';
 
 const Post = ({ post }) => {
+
+// récupération des données du post
     const { id, content, image } = post
+
+//récupération des données de l'utilisateur
     const { authProfil, reqInstance} = useContext(authContext)
     const userId = authProfil.id
     const userRole = authProfil.role
-  
-const { getAllPosts } = useContext(postsContext)
 
-const[myPost, setMyPost] = useState(false);
-const [isModalVisible, setIsModalVisible] = useState(false);
+//récupération de la fonction qui permet d'afficher tous les posts
+    const { getAllPosts } = useContext(postsContext)
+
+//Post de l'utilisateur?
+    const[myPost, setMyPost] = useState(false);
+
+//Affichage ou non de la modal
+    const [isModalVisible, setIsModalVisible] = useState(false);
 
 const showModal = () => {
     setIsModalVisible(true);
@@ -23,8 +31,6 @@ const showModal = () => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-
-
 
 useEffect(()=>{
     isMyPost()

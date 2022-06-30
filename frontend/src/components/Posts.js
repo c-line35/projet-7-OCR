@@ -7,6 +7,8 @@ import Post from './Post';
 import { BackTop } from 'antd';
 import { ArrowUpOutlined } from '@ant-design/icons';
 
+
+//style du bouton 'retour en haut de page'
 const style = {
   height: 20,
   width: 20,
@@ -19,7 +21,11 @@ const style = {
 };
 
 const posts = () => {
+
+//récupération des données des posts pour les envoyer dans chaque composents post
   const { posts, getAllPosts }=useContext(postsContext)
+
+//récupération des données de l'utilisateur connecté
   const { authProfil }=useContext(authContext)
   const { pseudo }= authProfil
 

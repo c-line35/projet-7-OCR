@@ -4,33 +4,41 @@ import { UploadOutlined } from '@ant-design/icons';
 import { authContext } from '../context/AuthContext';
 import { postsContext } from '../context/PostsContext';
 
+//Surveillance des entrées dans le champ du contenu du post
 const contentRegexp = new RegExp(/^[a-z0-9\séèçêëàù'\-,.":{}!?;]{1,2000}$/i)
 
 const NewPost = () => {
 
+//récupération des données de l'utilisateur connecté
     const { authProfil, reqInstance} = useContext(authContext)
     const { id, pseudo }= authProfil
 
+//récupération des données des postes
     const { getAllPosts, content, setContent, file, setFile} = useContext(postsContext)
-    
+
+// affichage ou non de la modal   
     const [isModalVisible, setIsModalVisible] = useState(false);
-   
-    const handleCancel = () => {
-        setIsModalVisible(false);
-    };
 
-   const showModal = (e) => {
-        setIsModalVisible(true);
-    };
+//configuration du header de la requête pour envoyer des données de types différents
+const headers = 'Content-Type : multipart/form-data';
+const handleCancel = () => {
+    setIsModalVisible(false);
+};
 
+const showModal = (e) => {
+    setIsModalVisible(true);
+};
+
+//mise à jour de l'image
     const normFile = (e) => {
         setFile(e.file)
     };
 
+// mise à jour du contenu     
     const getContent = (e)=>{
         setContent(e.target.value)
     }
-    
+
     const onFinish = () => {
         const valideContent = contentRegexp.test(content)
        
@@ -48,7 +56,8 @@ const NewPost = () => {
 
         reqInstance.post(
             `/posts`, 
-            form
+            form,
+            headers
         )
         .then(()=>{
             setContent("")

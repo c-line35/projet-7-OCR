@@ -5,11 +5,15 @@ import { authContext } from '../context/AuthContext';
 import { postsContext } from '../context/PostsContext';
 
 const EditLike = ({ post }) => {
+    
+//récupération des données du post concerné    
     const { id }= post
 
+//récupération des données de l'utilisateur
     const { authProfil, reqInstance} = useContext(authContext)
     const userId = authProfil.id;
 
+//récupération des données de tous les postes
     const { getAllPosts } = useContext(postsContext);
 
     const [like, setLike]=useState(false)
@@ -19,7 +23,8 @@ const EditLike = ({ post }) => {
     }, [])
 
     const liked = ()=>{
-      
+
+//requête pour aimer ou ne plus aimer un post
         reqInstance.post(`http://localhost:3001/api/posts/liked/${userId}`,
         {postId: id})
             .then((res)=>{
@@ -31,6 +36,7 @@ const EditLike = ({ post }) => {
             })
         }
         
+//requete pour vérifier si l'utilisateur aime le post pour afficher le pouce levé en rouge
         const likePost = () =>{
             const data = {userId: userId}
             reqInstance.post(

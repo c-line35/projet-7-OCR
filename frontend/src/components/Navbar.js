@@ -7,10 +7,9 @@ import { postsContext } from '../context/PostsContext';
 
 const Navbar = () => {
  
-const { authProfil, getProfil }= useContext(authContext)
+  const { getProfil }= useContext(authContext)
 
-
-const { posts, getUserPosts, getUserLikePosts, getAllPosts } = useContext(postsContext)
+  const { getUserPosts, getUserLikePosts, getAllPosts } = useContext(postsContext)
 
   const disconnect = ()=>{
     localStorage.removeItem('token')

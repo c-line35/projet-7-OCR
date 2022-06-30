@@ -3,6 +3,7 @@ import LogForm from './LogForm';
 import SignForm from './SignForm';
 const { TabPane } = Tabs;
 
+//choix de s'identifier ou s'inscrire
 const Tab = () =>   {
   const onChange = (key) => {
     console.log(key)

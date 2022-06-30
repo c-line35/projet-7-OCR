@@ -4,15 +4,17 @@ import { LockOutlined, MailOutlined, UserOutlined   } from '@ant-design/icons';
 import axios from 'axios';
 import {authContext} from '../context/AuthContext'
 
+//surveillance des entrées de champs de texte
 const validePassword = new RegExp (/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,15})$/)
 const validePseudo = new RegExp(/^[a-z0-9\séèçêëàù'\-,']{1,15}$/i)
+
 const SignForm = () => {
 
-  const { initToken}= useContext(authContext)
+//envoi du tokken vers le context auth
+  const { initToken }= useContext(authContext)
 
   const onFinish = (values) => {
-
-    
+//requête pour la création d'un nouvel utilisateur
     axios.post(
           "http://localhost:3001/api/auth/signup", 
           {
